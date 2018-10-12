@@ -9,7 +9,7 @@ class Counter extends Component {
   }*/
 
   state = {
-    count: 0,
+    value: this.props.value,
     imageUrl: "https://picsum.photos/200",
     tags: []
   };
@@ -35,8 +35,7 @@ class Counter extends Component {
 
   handleIncrement = product => {
     //this.state.count++;
-    console.log(product);
-    this.setState({ count: this.state.count + 1 }); // this is required to detect the state change unlike angular
+    this.setState({ value: this.state.value + 1 }); // this is required to detect the state change unlike angular
   };
 
   doHandleIncrement = () => {
@@ -68,13 +67,13 @@ class Counter extends Component {
 
   getBadgeClasses() {
     let classes = "badge  m-2 badge-";
-    classes += this.state.count === 0 ? "warning" : "primary"; //WHAT IS THIS SHORT HANDING SYNTAX changing color depending on number
+    classes += this.state.value === 0 ? "warning" : "primary"; //WHAT IS THIS SHORT HANDING SYNTAX changing color depending on number
     return classes;
   }
 
   formatCount() {
-    const { count } = this.state; //WHAT IS THIS SYNTAX WTFF
-    return count === 0 ? <h1>Zero</h1> : count; //short handed if else?
+    const { value } = this.state; //WHAT IS THIS SYNTAX WTFF
+    return value === 0 ? <h1>Zero</h1> : value; //short handed if else?
   }
 }
 
