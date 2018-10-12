@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 
 class Counter extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    console.log("prevProps", prevProps);
+    console.log("prevState", prevState);
+    if (prevProps.counter.value !== this.props.counter.value) {
+      //Ajax call and get new data from the server
+    }
+  }
+  componentWillUnmount() {
+    console.log("Counter-UnMount");
+  }
   //state includes any data that this object needs
 
   /*constructor(){
@@ -9,7 +19,7 @@ class Counter extends Component {
   }*/
 
   state = {
-    value: this.props.value,
+    value: this.props.counter.value,
     imageUrl: "https://picsum.photos/200",
     tags: []
   };
@@ -21,7 +31,7 @@ class Counter extends Component {
 
   //jsx also doesn't have if else? We need to use JS for conditionals
 
-  renderTags() {
+  /* renderTags() {
     if (this.state.tags.length === 0) return <p>no tags</p>;
 
     return (
@@ -32,18 +42,23 @@ class Counter extends Component {
       </ul>
     );
   }
+        {this.state.tags.length === 0 && "please create new tags"}
+        {this.renderTags()}
 
-  handleIncrement = product => {
+  */
+
+  /* handleIncrement = product => {
     //this.state.count++;
     this.setState({ value: this.state.value + 1 }); // this is required to detect the state change unlike angular
-  };
+  }; */
 
-  doHandleIncrement = () => {
+  /*doHandleIncrement = () => {
     this.handleIncrement({ id: 1 });
-  };
+  }; */
 
   render() {
     //jsx elements must have 1 parent element
+    console.log("Counter - Rendered");
     return (
       <div>
         <img src={this.state.imageUrl} alt="" />
@@ -51,13 +66,17 @@ class Counter extends Component {
           {this.formatCount()}
         </span>
         <button
-          onClick={() => this.doHandleIncrement()}
+          onClick={() => this.props.onIncrement(this.props.counter)}
           className="btn btn-secondary btn-sm"
         >
           increment
         </button>
-        {this.state.tags.length === 0 && "please create new tags"}
-        {this.renderTags()}
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
+        </button>
       </div>
     );
 
@@ -67,12 +86,12 @@ class Counter extends Component {
 
   getBadgeClasses() {
     let classes = "badge  m-2 badge-";
-    classes += this.state.value === 0 ? "warning" : "primary"; //WHAT IS THIS SHORT HANDING SYNTAX changing color depending on number
+    classes += this.props.counter.value === 0 ? "warning" : "primary"; //WHAT IS THIS SHORT HANDING SYNTAX changing color depending on number
     return classes;
   }
 
   formatCount() {
-    const { value } = this.state; //WHAT IS THIS SYNTAX WTFF
+    const { value } = this.props.counter; //WHAT IS THIS SYNTAX WTFF
     return value === 0 ? <h1>Zero</h1> : value; //short handed if else?
   }
 }
